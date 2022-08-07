@@ -3,4 +3,5 @@ pillow
 wheel
 django-allauth
 djangorestframework
+djangorestframework-jwt
 django-cors-headers~=3.13.0

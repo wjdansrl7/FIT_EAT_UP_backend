@@ -7,7 +7,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls), # 장고 서버 관리자 계정 : localhost:8000/admin
     path('accounts/', include('accounts.urls')),
     # path('api-auth', include('rest_framework.urls')),
     # path('rest-auth/', include('rest_auth.urls')),
