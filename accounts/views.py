@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
-from .serializers import SignupSerializer
+from .serializers import SignupSerializer, NicknameUniqueCheckSerializer
 
 
 class SignupView(CreateAPIView):
@@ -11,5 +11,14 @@ class SignupView(CreateAPIView):
     permission_classes = [
         AllowAny,
     ]
+
+
+class NicknameUniqueCheck(CreateAPIView):
+    model = get_user_model
+    serializer_class = NicknameUniqueCheckSerializer
+    permission_classes = [
+        AllowAny,
+    ]
+
 
 
