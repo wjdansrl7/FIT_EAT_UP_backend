@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # 'rest_auth.registration',
     # local apps
     'accounts',
+    'foods',
 ]
 
 MIDDLEWARE = [
