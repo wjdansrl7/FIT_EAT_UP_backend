@@ -1,0 +1,35 @@
+<h1> 네이버 음식 검색 API</h1>
+
+<!--<img src="https://naveropenapi.apigw.ntruss.com/map-static/v2/raster-cors?w=300&h=300&center=127.1054221,37.3591614&level=16&&X-NCP-APIGW-API-KEY-ID=2tr1w5ofb0" alt="안보임">-->
+
+  <form action="{% url 'foods:api_search' %}" method="GET">
+      <input type="text" name="q" placeholder="검색">
+      <input type="submit" value="검색">
+  </form>
+  <div>
+    {% for item in items %}
+      <ul>
+          <li>{{ forloop.counter }}
+             {{ item.title|safe }} ( {{item.link}} ) : {{ item.category }} : {{ item.address }} 도로명 주소 : {{ item.roadAddress }}
+          </li>
+      </ul>
+    {% endfor %}
+  </div>
+
+<!--<form action="{% url 'foods:api_img_search' %}" method="GET">-->
+<!--    <input type="text" name="q_img" placeholder="검색">-->
+<!--    <input type="submit" value="검색">-->
+<!--</form>-->
+<!--    <div>-->
+<!--        {% for item in items %}-->
+<!--        <ul>-->
+<!--            <li>{{forloop.counter}}-->
+<!--                <img src={{item.link}} style="width: 100px; height: 100px">-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <img src="https://naveropenapi.apigw.ntruss.com/map-static/v2/raster-cors?w=300&h=300&center=127.1054221,37.3591614&level=16&X-NCP-APIGW-API-KEY-ID= 2tr1w5ofb0">-->
+<!--    </div>-->
+
