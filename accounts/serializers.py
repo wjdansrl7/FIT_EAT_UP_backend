@@ -1,12 +1,11 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-# from rest_framework.response import Response
-# from rest_framework.validators import UniqueValidator
 
 
 User = get_user_model()
 
 
+# 회원가입
 class SignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
@@ -21,19 +20,10 @@ class SignupSerializer(serializers.ModelSerializer):
         fields = ['pk', 'username', 'password', 'nickname']
 
 
-# class NicknameUniqueCheckSerializer(serializers.ModelSerializer):
-#     nickname = serializers.CharField(required=True, min_length=1,
-#                                      max_length=30, validators=[UniqueValidator(queryset=User.objects.all())])
-#
-#     def post(self, request, format=None):
-#         serializer = self.get_serializer(data=request.data, context={'request': request})
-#         if serializer.is_valid():
-#             return Response(data={'detail': ['You can use this nickname']}, status=status.HTTP_200_OK)
-#         else:
-#             detail = dict()
-#             detail['detail'] = serializer.errors['nickname']
-#             return Response(data=detail, status=status.HTTP_400_BAD_REQUEST)
-#
-#     class Meta:
-#         model = User
-#         fields = ['nickname']
+# 프로필 및 유저 정보 확인
+class ProfileUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['pk', 'username', 'nickname']
+
+
