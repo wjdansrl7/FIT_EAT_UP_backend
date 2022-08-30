@@ -27,3 +27,11 @@ class ProfileUserSerializer(serializers.ModelSerializer):
         fields = ['pk', 'username', 'nickname']
 
 
+# 친구 추천 유저 리스트 목록
+class SuggestionUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['pk', 'username', 'nickname', 'avatar_url']
+
+
+

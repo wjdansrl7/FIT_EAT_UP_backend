@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     # 'rest_framework.authtoken',
     # 'rest_auth',
     'corsheaders',
+    'django_pydenticon',
     # 회원가입
     # 'django.contrib.sites',
     # 'allauth',
