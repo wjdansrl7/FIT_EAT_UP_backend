@@ -3,12 +3,18 @@
 
 #### version 0.0.0
   ##### ⚬ 프로젝트 생성
+  
+#### version 0.1.0
+  ##### ⚬ 
 
-#### version 0.0.0
-  ##### ⚬ 프로젝트 생성
+#### version 0.1.1
+  ##### ⚬ 
 
-#### version 0.0.0
-  ##### ⚬ 프로젝트 생성
+#### version 0.1.2
+  ##### ⚬ 
+  
+#### version 0.1.3
+  ##### ⚬ 
   
 #### version 0.1.4
   ##### ⚬ jwt token 로그인 관련 permission을 allowany -> authorization을 통해 token이 인증된 사용자만 이후 페이지에 접근
