@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from django_pydenticon.views import image as pydenticon_image
 
 router = DefaultRouter()
 
@@ -10,9 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls), # 장고 서버 관리자 계정 : localhost:8000/admin
     path('accounts/', include('accounts.urls')),
     path('foods/', include('foods.urls')),
-    # path('api-auth', include('rest_framework.urls')),
-    # path('rest-auth/', include('rest_auth.urls')),
-    # path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    path('identicon/image/<path:data>.png/', pydenticon_image, name='pydenticon_image'),
 ]
 
 
