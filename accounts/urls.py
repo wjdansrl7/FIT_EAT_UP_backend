@@ -16,5 +16,10 @@ urlpatterns = [
 
     path('follow/', views.user_follow, name='user_follow'),  # 친구 추가
     path('unfollow/', views.user_unfollow, name='user_unfollow'),  # 친구 삭제
+    # path('testjson', views.testJson),
+
+    # path('place/user/like/', views.place_like, name='place_like'),
+    path('place/user/like/', views.LikePlaceAPIView.as_view(), name='LikePlace'),
+    # path('place/visit/', views.VisitPlaceListAPIView.as_view(), name='VisitPlace'),
 
 ]
