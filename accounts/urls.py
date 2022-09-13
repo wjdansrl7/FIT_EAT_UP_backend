@@ -16,10 +16,11 @@ urlpatterns = [
 
     path('follow/', views.user_follow, name='user_follow'),  # 친구 추가
     path('unfollow/', views.user_unfollow, name='user_unfollow'),  # 친구 삭제
-    # path('testjson', views.testJson),
 
-    # path('place/user/like/', views.place_like, name='place_like'),
-    path('place/user/like/', views.LikePlaceAPIView.as_view(), name='LikePlace'),
-    # path('place/visit/', views.VisitPlaceListAPIView.as_view(), name='VisitPlace'),
+    path('place/user/like/save/', views.LikePlaceAPIView.as_view(), name='LikePlaceSave'),  # 좋아요한 장소 저장
+    path('place/user/like/list/', views.LikePlaceListAPIView.as_view(), name='LikePlaceList'),  # 좋아요한 장소 리스트 출력
+    path('place/user/visit/save/', views.VisitPlaceAPIView.as_view(), name='VisitPlaceSave'),  # 가본 곳 장소 리스트 저장
+    path('place/user/visit/list/', views.VisitPlaceListAPIView.as_view(), name='VisitPlaceList'),  # 가본 곳 장소 리스트 출력
+
 
 ]

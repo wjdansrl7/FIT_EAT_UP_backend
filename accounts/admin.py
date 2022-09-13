@@ -13,9 +13,6 @@ class UserAdmin(admin.ModelAdmin):
 class PlaceAdmin(admin.ModelAdmin):
     pass
 
-# @admin.register(Profile)
-# class ProfileAdmin(admin.ModelAdmin):
-#     pass
 
 
 

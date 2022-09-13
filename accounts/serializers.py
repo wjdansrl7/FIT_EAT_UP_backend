@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 # from .models import Place
+from rest_framework.generics import get_object_or_404
+
 from .models import Place
 
 User = get_user_model()
@@ -36,51 +38,78 @@ class SuggestionUserSerializer(serializers.ModelSerializer):
         fields = ['pk', 'username', 'nickname', 'avatar_url']
 
 
-# # 들어온 장소 저장
-# # create 안에 각각의 변수값들을 저장해야하는지는 찾아봐야함. ex) address_name, 등등
-class PlaceSerializer(serializers.ModelSerializer):
+# # 좋아요한 장소 저장
+class SaveLikePlaceSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         place = Place.objects.create(
-            # address_name=self.data['address_name'],
-            place_name=self.data['place_name'],
+            address_name=self.data['address_name'],
+            category_group_code=self.data['category_group_code'],
+            category_group_name=self.data['category_group_name'],
+            category_name=self.data['category_name'],
+            distance=self.data['distance'],
             id=self.data['id'],
-            phone=self.data['phone']
-                                     )
-            # category_group_code=validated_data['category_group_code'],
-            # category_group_name=validated_data['category_group_name'],
-            # category_name=validated_data['category_name'],
-            # distance=validated_data['distance'],
-            # id=validated_data['id'],
-            # phone=validated_data['phone'],
-            # place_name=validated_data['place_name'],
-            # place_url=validated_data['place_url'],
-            # road_address_name=validated_data['road_address_name'],
-            # x=validated_data['x'],
-            # y=validated_data['y'],
-            # image=validated_data['image'],
-        # )
+            phone=self.data['phone'],
+            place_name=self.data['place_name'],
+            place_url=self.data['place_url'],
+            road_address_name=self.data['road_address_name'],
+            x=self.data['x'],
+            y=self.data['y'],
+            # image_url=self.data['image_url'],
+        )
         place.save()
-        # User.save(username=validated_data['username'], like_places=validated_data['id'])
+        user = get_object_or_404(User, pk__in=self.data['pk'])
+        user.like_places.add(place)
         return place
 
     class Meta:
         model = Place
-        fields = ['id', 'place_name', 'image']
+        fields = ['address_name', 'category_group_code', 'category_group_name',
+                  'category_name', 'distance', 'id', 'phone', 'place_name',
+                  'place_url', 'road_address_name', 'x', 'y', 'image_url', 'pk']
 
 
 # 좋아요한 장소 리스트
 class LikePlaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Place
-        fields = ['id', 'pk', 'place_name', 'image']
-#
-#
-# # 가본 곳 장소 리스트
-# class VisitPlaceSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Place
-#         fields = ['id', 'pk', 'place_name', 'image']
+        fields = ['address_name', 'category_group_code', 'category_group_name',
+                  'category_name', 'distance', 'id', 'phone', 'place_name',
+                  'place_url', 'road_address_name', 'x', 'y', 'image_url']
 
 
+class SaveVisitPlaceSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        print(self.data)
+        place = Place.objects.create(
+            address_name=self.data['address_name'],
+            category_group_code=self.data['category_group_code'],
+            category_group_name=self.data['category_group_name'],
+            category_name=self.data['category_name'],
+            distance=self.data['distance'],
+            id=self.data['id'],
+            phone=self.data['phone'],
+            place_name=self.data['place_name'],
+            place_url=self.data['place_url'],
+            road_address_name=self.data['road_address_name'],
+            x=self.data['x'],
+            y=self.data['y'],
+            # image_url=self.data['image_url'],
+        )
+        place.save()
+        user = get_object_or_404(User, pk__in=self.data['pk'])
+        user.visit_places.add(place)
+        return place
+
+    class Meta:
+        model = Place
+        fields = ['address_name', 'category_group_code', 'category_group_name',
+                  'category_name', 'distance', 'id', 'phone', 'place_name',
+                  'place_url', 'road_address_name', 'x', 'y', 'image_url', 'pk']
 
 
+class VisitPlaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Place
+        fields = ['address_name', 'category_group_code', 'category_group_name',
+                  'category_name', 'distance', 'id', 'phone', 'place_name',
+                  'place_url', 'road_address_name', 'x', 'y', 'image_url']
