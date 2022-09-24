@@ -8,7 +8,7 @@ from .models import User, Place
 class UserAdmin(admin.ModelAdmin):
     pass
 
-
+# 장고 admin 페이지에 Place 생성
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
     pass

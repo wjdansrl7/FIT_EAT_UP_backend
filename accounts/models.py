@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.shortcuts import resolve_url
+from rest_framework.exceptions import ValidationError
 
 
 class User(AbstractUser):
@@ -53,14 +54,16 @@ class Place(models.Model):
     category_group_code = models.CharField(max_length=50)
     category_group_name = models.CharField(max_length=100)
     category_name = models.CharField(max_length=50)
-    distance = models.CharField(max_length=50)
+    distance = models.CharField(max_length=50, null=True, blank=True)
+    # id = models.AutoField(primary_key=True)  # 음식점 식별 번호
     id = models.CharField(primary_key=True, max_length=50)  # 음식점 식별 번호
+    # serial_number = models.CharField(max_length=50)  # 음식점 식별 번호
     phone = models.CharField(max_length=13, blank=True)  # 음식점 전화 번호
     place_name = models.CharField(max_length=200)  # 음식점 상호명
     place_url = models.URLField(blank=True)
     road_address_name = models.CharField(max_length=50)
-    x = models.DecimalField(max_digits=13, decimal_places=10)  # 음식점 위도
-    y = models.DecimalField(max_digits=13, decimal_places=10)  # 음식점 경도
+    x = models.DecimalField(max_digits=18, decimal_places=15)  # 음식점 위도
+    y = models.DecimalField(max_digits=18, decimal_places=15)  # 음식점 경도
     image = models.ImageField(
         blank=True,
         upload_to="accounts/image/%Y/%m/%d",

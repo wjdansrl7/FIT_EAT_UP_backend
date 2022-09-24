@@ -4,11 +4,13 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, get_object_or_404
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, get_object_or_404, \
+    GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.settings import api_settings
 
-from .models import Place
+from .models import Place, User
 from .serializers import SignupSerializer, ProfileUserSerializer, SuggestionUserSerializer, \
     LikePlaceSerializer, SaveLikePlaceSerializer, SaveVisitPlaceSerializer, VisitPlaceSerializer
 
@@ -72,13 +74,50 @@ def user_unfollow(request):
     follow_user.follower_set.remove(request.user)
     return Response(status.HTTP_204_NO_CONTENT)
 
+
 # -----------------------------------------------------
 
 
 # 좋아요한 장소를 Place 모델에 저장 및 해당 유저가 좋아하는 장소 저장
-class LikePlaceAPIView(CreateAPIView):
+class LikePlaceAPIView(GenericAPIView):
     model = Place
     serializer_class = SaveLikePlaceSerializer
+    queryset = Place.objects.all()
+
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        kwargs["context"] = self.get_serializer_context()
+        draft_request_data = self.request.data.copy()
+        kwargs["data"] = draft_request_data
+        return serializer_class(*args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        if Place.objects.filter(id=request.data['id']).exists():
+            place = Place.objects.get(id=request.data['id'])
+            user = get_object_or_404(User, pk=self.request.data['pk'])
+            user.like_places.add(place)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            user = get_object_or_404(User, pk=request.data['pk'])
+            place = Place.objects.get(id=request.data['id'])
+            user.like_places.add(place)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get_success_headers(self, data):
+        try:
+            return {'Location': str(data[api_settings.URL_FIELD_NAME])}
+        except (TypeError, KeyError):
+            return {}
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
 # 좋아요한 장소 리스트 출력
@@ -93,9 +132,46 @@ class LikePlaceListAPIView(ListAPIView):
 
 
 # 방문한 장소 저장
-class VisitPlaceAPIView(CreateAPIView):
+class VisitPlaceAPIView(GenericAPIView):
     model = Place
     serializer_class = SaveVisitPlaceSerializer
+    queryset = Place.objects.all()
+
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        kwargs["context"] = self.get_serializer_context()
+
+        draft_request_data = self.request.data.copy()
+        kwargs["data"] = draft_request_data
+        return serializer_class(*args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        if Place.objects.filter(id=request.data['id']).exists():
+            place = Place.objects.get(id=request.data['id'])
+            user = get_object_or_404(User, pk=request.data['pk'])
+            user.visit_places.add(place)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            user = get_object_or_404(User, pk=request.data['pk'])
+            place = Place.objects.get(id=request.data['id'])
+            user.visit_places.add(place)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get_success_headers(self, data):
+        try:
+            return {'Location': str(data[api_settings.URL_FIELD_NAME])}
+        except (TypeError, KeyError):
+            return {}
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
 # 방문한 장소 리스트 출력
