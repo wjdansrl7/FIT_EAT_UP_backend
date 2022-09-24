@@ -28,3 +28,17 @@
   ##### ⚬ http://localhost:8000/accounts/follow/ : 친구 추가
   ##### ⚬ http://localhost:8000/accounts/unfollow/ : 친구 삭제
   
+#### version 0.1.6
+  ##### ⚬ 
+  ##### ⚬ 
+  ##### ⚬ 
+  ##### ⚬
+
+
+#### version 0.1.7
+  ##### ⚬ Place 모델에 distance  null or blank=True라고 설정하여서 값을 입력하지 않아도 data를 저장하도록 설정
+  ##### ⚬ 해당 음식점에 경도와 위도의 소수점이 길어서 max_digits와 decimal_places 해결
+  ##### ⚬ 동일한 장소 A를 좋아요 장소 리스트오 가본 장소 리스트 두 개에 다 저장하려고 하면 Place_id가 이미 존재한다는                 validationError를 customize해서 해결
+
+
+
