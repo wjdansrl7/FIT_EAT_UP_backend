@@ -29,11 +29,11 @@
   ##### ⚬ http://localhost:8000/accounts/unfollow/ : 친구 삭제
   
 #### version 0.1.6
-  ##### ⚬ 
-  ##### ⚬ 
-  ##### ⚬ 
-  ##### ⚬
-
+  ##### ⚬ https://localhost:8000/accounts/place/user/like/save/ : 유저가 음식점 상세 정보 페이지에서 좋아요를           클릭시 정보를 저장
+  ##### ⚬ https://localhost:8000/accounts/place/user/like/list/ : 유저가 좋아요한 장소들을 리스트로 출력
+  ##### ⚬ https://localhost:8000/accounts/place/user/visit/save/ : 유저가 음식점 상세 정보 페이지에서 가본 장           소를 클릭시 정보를 저장
+  ##### ⚬ https://localhost:8000/accounts/place/user/visit/list/ : 유저가 가본 장소들을 리스트로 출력
+  ##### ⚬ User 모델과 Place 모델을 manytomany 관계를 통해서 likePlace, visitPlace라는 중개 모델을 생성, 해당 모델           에는 User_id, Place_id를 통해 유저와 장소 모델을 ORM을 설정
 
 #### version 0.1.7
   ##### ⚬ Place 모델에 distance  null or blank=True라고 설정하여서 값을 입력하지 않아도 data를 저장하도록 설정
