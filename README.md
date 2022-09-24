@@ -36,9 +36,9 @@
   ##### ⚬ User 모델과 Place 모델을 manytomany 관계를 통해서 likePlace, visitPlace라는 중개 모델을 생성, 해당 모델           에는 User_id, Place_id를 통해 유저와 장소 모델을 ORM을 설정
 
 #### version 0.1.7
-  ##### ⚬ Place 모델에 distance  null or blank=True라고 설정하여서 값을 입력하지 않아도 data를 저장하도록 설정
+  ##### ⚬ Place 모델에 distance 필드에 null or blank=True라고 설정하여서 값을 입력하지 않아도 data를 저장하도록 설정
   ##### ⚬ 해당 음식점에 경도와 위도의 소수점이 길어서 max_digits와 decimal_places 해결
-  ##### ⚬ 동일한 장소 A를 좋아요 장소 리스트오 가본 장소 리스트 두 개에 다 저장하려고 하면 Place_id가 이미 존재한다는                 validationError를 customize해서 해결
+  ##### ⚬ 동일한 장소 A를 좋아요 장소 리스트와 가본 장소 리스트 두 개에 다 저장하려고 하면 Place_id가 이미 존재한다는                 validationError를 customize해서 해당 장소 모델이 이미 존재할시 ORM만  해결
 
 
 
