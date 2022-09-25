@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, get_object_or_404, \
-    GenericAPIView
+    GenericAPIView, DestroyAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
@@ -130,6 +130,16 @@ class LikePlaceListAPIView(ListAPIView):
         qs = qs.filter(id__in=self.request.user.like_places.all())
         return qs
 
+# 좋아요한 장소 리스트에서 삭제
+@api_view(["POST"])
+def likePlace_delete(request):
+    id = request.data['id']
+
+    place = get_object_or_404(Place, id=id)
+    request.user.like_places.remove(place)
+    # place.like_places_set.remove(request.user)
+    return Response(status.HTTP_204_NO_CONTENT)
+
 
 # 방문한 장소 저장
 class VisitPlaceAPIView(GenericAPIView):
@@ -183,3 +193,14 @@ class VisitPlaceListAPIView(ListAPIView):
         qs = super().get_queryset()
         qs = qs.filter(id__in=self.request.user.visit_places.all())
         return qs
+
+
+# 방문한 장소 리스트 삭제
+@api_view(["POST"])
+def visitPlace_delete(request):
+    id = request.data['id']
+
+    place = get_object_or_404(Place, id=id)
+    request.user.visit_places.remove(place)
+    # place.visit_places_set.remove(request.user)
+    return Response(status.HTTP_204_NO_CONTENT)

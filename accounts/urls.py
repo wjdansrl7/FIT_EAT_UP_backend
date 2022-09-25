@@ -26,10 +26,12 @@ urlpatterns = [
     # 좋아요한 장소
     path('place/user/like/save/', views.LikePlaceAPIView.as_view(), name='LikePlaceSave'),  # 좋아요한 장소 저장
     path('place/user/like/list/', views.LikePlaceListAPIView.as_view(), name='LikePlaceList'),  # 좋아요한 장소 리스트 출력
+    path('place/user/like/delete/', views.likePlace_delete, name='LikePlaceDelete'),  # 좋아요한 장소 리스트 삭제
 
     # 가본 곳 장소
     path('place/user/visit/save/', views.VisitPlaceAPIView.as_view(), name='VisitPlaceSave'),  # 가본 곳 장소 리스트 저장
     path('place/user/visit/list/', views.VisitPlaceListAPIView.as_view(), name='VisitPlaceList'),  # 가본 곳 장소 리스트 출력
+    path('place/user/visit/delete/', views.visitPlace_delete, name='VisitPlaceDelete'),  # 가본 곳 장소 리스트 삭제
 
 
 ]

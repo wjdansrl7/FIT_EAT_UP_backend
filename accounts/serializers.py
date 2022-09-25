@@ -1,3 +1,5 @@
+import re
+
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
@@ -28,6 +30,7 @@ class SignupSerializer(serializers.ModelSerializer):
 
 # 프로필 및 유저 정보 확인
 class ProfileUserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ['pk', 'username', 'nickname', 'avatar_url']
@@ -35,6 +38,7 @@ class ProfileUserSerializer(serializers.ModelSerializer):
 
 # 친구 추천 유저 리스트 목록
 class SuggestionUserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ['pk', 'username', 'nickname', 'avatar_url']
