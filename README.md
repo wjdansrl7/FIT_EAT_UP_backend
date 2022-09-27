@@ -40,5 +40,7 @@
   ##### ⚬ 해당 음식점에 경도와 위도의 소수점이 길어서 max_digits와 decimal_places 해결
   ##### ⚬ 동일한 장소 A를 좋아요 장소 리스트와 가본 장소 리스트 두 개에 다 저장하려고 하면 Place_id가 이미 존재한다는                 validationError를 customize해서 해당 장소 모델이 이미 존재할시 ORM만  해결
 
-
+#### version 0.1.8
+  ##### ⚬ http://localhost:8000/accounts/place/user/like/delete/ : 유저가 좋아요한 장소를 삭제
+  ##### ⚬ http://localhost:8000/accounts/place/user/visit/delete/ : 유저가 가본 장소를 삭제
 
