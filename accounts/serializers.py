@@ -8,7 +8,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.fields import empty
 from rest_framework.generics import get_object_or_404
 
-from .models import Place
+from .models import Place, UserRating
 
 User = get_user_model()
 
@@ -80,3 +80,11 @@ class VisitPlaceSerializer(serializers.ModelSerializer):
         fields = ['address_name', 'category_group_code', 'category_group_name',
                   'category_name', 'distance', 'id', 'phone', 'place_name',
                   'place_url', 'road_address_name', 'x', 'y', 'image_url']
+
+
+# 사용자가 입력한 평점 데이터
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserRating
+        fields = ['place', 'user', 'rating']
+

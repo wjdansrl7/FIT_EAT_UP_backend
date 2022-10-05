@@ -33,5 +33,12 @@ urlpatterns = [
     path('place/user/visit/list/', views.VisitPlaceListAPIView.as_view(), name='VisitPlaceList'),  # 가본 곳 장소 리스트 출력
     path('place/user/visit/delete/', views.visitPlace_delete, name='VisitPlaceDelete'),  # 가본 곳 장소 리스트 삭제
 
+    # 장소에 대한 평점
+    path('place/user/rating/', views.RatingView.as_view(), name='Rating'),  # 음식점에 대한 유저의 평점 저장
+    path('place/user/rating/list/', views.RatingListView.as_view(), name='RatingList'),  # 음식점에 대한 유저의 평점 리스트
+
+
+
+
 
 ]

@@ -10,9 +10,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 
-from .models import Place, User
+from .models import Place, User, UserRating
 from .serializers import SignupSerializer, ProfileUserSerializer, SuggestionUserSerializer, \
-    LikePlaceSerializer, SaveLikePlaceSerializer, SaveVisitPlaceSerializer, VisitPlaceSerializer
+    LikePlaceSerializer, SaveLikePlaceSerializer, SaveVisitPlaceSerializer, VisitPlaceSerializer, RatingSerializer
 
 
 # 회원가입 view - POST 요청
@@ -204,3 +204,15 @@ def visitPlace_delete(request):
     request.user.visit_places.remove(place)
     # place.visit_places_set.remove(request.user)
     return Response(status.HTTP_204_NO_CONTENT)
+
+
+class RatingView(CreateAPIView):
+    model = UserRating
+    serializer_class = RatingSerializer
+
+
+class RatingListView(ListAPIView):
+    queryset = UserRating.objects.all()
+    serializer_class = RatingSerializer
+
+

@@ -40,6 +40,13 @@ class User(AbstractUser):
         related_name='visit_users',
     )
 
+    ratings = models.ManyToManyField(
+        'Place',
+        blank=True,
+        related_name='rating_users',
+        through='UserRating',
+    )
+
     # @property는 메소드를 마치 필드인 것처럼 취급할 수 있게 해준다.
     @property
     def avatar_url(self):
@@ -78,3 +85,13 @@ class Place(models.Model):
 
     def __str__(self):
         return self.id
+
+
+class UserRating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    place = models.ForeignKey(Place, on_delete=models.CASCADE)
+    rating = models.IntegerField(blank=True)
+
+    def __str__(self):
+        return f'{self.user}' '_' f'{self.place}'
+
