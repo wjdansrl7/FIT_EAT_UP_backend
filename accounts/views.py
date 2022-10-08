@@ -206,11 +206,55 @@ def visitPlace_delete(request):
     return Response(status.HTTP_204_NO_CONTENT)
 
 
-class RatingView(CreateAPIView):
+# 음식점에 대한 평점 저장
+class RatingView(GenericAPIView):
     model = UserRating
     serializer_class = RatingSerializer
+    queryset = UserRating.objects.all()
+
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        kwargs["context"] = self.get_serializer_context()
+
+        draft_request_data = self.request.data.copy()
+        kwargs["data"] = draft_request_data
+        return serializer_class(*args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        if UserRating.objects.filter(place_id=request.data['place']).exists():
+            user = get_object_or_404(User, pk=request.data['user'])
+            place = Place.objects.get(id=request.data['place'])
+            user.ratings.remove(place)
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            user.ratings.add(place)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
+        else:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            user = get_object_or_404(User, pk=request.data['user'])
+            place = Place.objects.get(id=request.data['place'])
+            user.ratings.add(place)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get_success_headers(self, data):
+        try:
+            return {'Location': str(data[api_settings.URL_FIELD_NAME])}
+        except (TypeError, KeyError):
+            return {}
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
+# 음식점에 대한 평점 리스트 출력
 class RatingListView(ListAPIView):
     queryset = UserRating.objects.all()
     serializer_class = RatingSerializer
