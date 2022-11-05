@@ -24,6 +24,7 @@ class User(AbstractUser):
     following_set = models.ManyToManyField("self", blank=True)  # 내가 친구를 follow
 
     avatar = models.ImageField(
+        null=True,
         blank=True,
         upload_to="accounts/avatar/%Y/%m/%d",
         help_text="48px * 48px 크기의 png/jpg 파일을 업로드해주세요.",
@@ -65,7 +66,7 @@ class Place(models.Model):
     # id = models.AutoField(primary_key=True)  # 음식점 식별 번호
     id = models.CharField(primary_key=True, max_length=50)  # 음식점 식별 번호
     # serial_number = models.CharField(max_length=50)  # 음식점 식별 번호
-    phone = models.CharField(max_length=13, blank=True)  # 음식점 전화 번호
+    phone = models.CharField(max_length=18, blank=True)  # 음식점 전화 번호
     place_name = models.CharField(max_length=200)  # 음식점 상호명
     place_url = models.URLField(blank=True)
     road_address_name = models.CharField(max_length=50)
@@ -76,12 +77,12 @@ class Place(models.Model):
         upload_to="accounts/image/%Y/%m/%d",
     )  # 음식점 이미지 필드
 
-    @property
-    def image_url(self):
-        if self.image:
-            return self.image.url
-        else:
-            return resolve_url("pydenticon_image", self.id)
+    # @property
+    # def image_url(self):
+    #     if self.image:
+    #         return self.image.url
+    #     else:
+    #         return resolve_url("pydenticon_image", self.id)
 
     def __str__(self):
         return self.id

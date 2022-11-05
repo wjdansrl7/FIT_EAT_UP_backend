@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls), # 장고 서버 관리자 계정 : localhost:8000/admin
     path('accounts/', include('accounts.urls')),
     path('foods/', include('foods.urls')),
+    path('recommands/', include('recommands.urls')),
     path('identicon/image/<path:data>.png/', pydenticon_image, name='pydenticon_image'),
 ]
 

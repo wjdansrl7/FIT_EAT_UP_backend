@@ -1,11 +1,10 @@
-import json
-
+import csv
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, get_object_or_404, \
-    GenericAPIView, DestroyAPIView
+    GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
@@ -258,5 +257,37 @@ class RatingView(GenericAPIView):
 class RatingListView(ListAPIView):
     queryset = UserRating.objects.all()
     serializer_class = RatingSerializer
+
+
+def export_to_csv(request):
+    ratings = UserRating.objects.all()
+    response = HttpResponse('text/csv')
+    response['Content-Disposition'] = 'attachment; filename=rating_export.csv'
+    writer = csv.writer(response)
+    writer.writerow(['User','Place','Rating'])
+    rating_fields = ratings.values_list('user_id', 'place_id', 'rating')
+    for rating in rating_fields:
+        writer.writerow(rating)
+    return response
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

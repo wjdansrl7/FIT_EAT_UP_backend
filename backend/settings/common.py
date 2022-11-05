@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # local apps
     'accounts',
     'foods',
+    'recommands',
 ]
 
 MIDDLEWARE = [
@@ -104,6 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "accounts.User"
+
+MODEL_ROOT = os.path.join(BASE_DIR, 'models')
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

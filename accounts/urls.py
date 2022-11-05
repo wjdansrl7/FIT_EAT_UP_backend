@@ -2,6 +2,8 @@ from django.urls import path, re_path
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 from . import views
+# from .views import Train, Predict
+# from .views import Train
 
 urlpatterns = [
     # 회원가입
@@ -36,6 +38,12 @@ urlpatterns = [
     # 장소에 대한 평점
     path('place/user/rating/', views.RatingView.as_view(), name='Rating'),  # 음식점에 대한 유저의 평점 저장
     path('place/user/rating/list/', views.RatingListView.as_view(), name='RatingList'),  # 음식점에 대한 유저의 평점 리스트
+
+    path('export-to-csv/', views.export_to_csv, name='export-to-csv'),
+    # path('train/', Train.as_view(), name="train"),
+    # path('predict/', Predict.as_view(), name="predict"),
+
+
 
 
 

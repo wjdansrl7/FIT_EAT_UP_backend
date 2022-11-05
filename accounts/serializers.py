@@ -18,14 +18,16 @@ class SignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     def create(self, validated_data):
-        user = User.objects.create(username=validated_data['username'], nickname=validated_data['nickname'])
+        # user = User.objects.create(username=validated_data['username'], nickname=validated_data['nickname'],
+        #                            avatar=validated_data['avatar'])
+        user = User.objects.create(**validated_data)
         user.set_password(validated_data['password'])
         user.save()
         return user
 
     class Meta:
         model = User
-        fields = ['pk', 'username', 'password', 'nickname', 'avatar_url']
+        fields = ['pk', 'username', 'password', 'nickname', 'avatar']
 
 
 # 프로필 및 유저 정보 확인
@@ -51,7 +53,7 @@ class SaveLikePlaceSerializer(serializers.ModelSerializer):
         model = Place
         fields = ['address_name', 'category_group_code', 'category_group_name',
                   'category_name', 'distance', 'id', 'phone', 'place_name',
-                  'place_url', 'road_address_name', 'x', 'y', 'image_url']
+                  'place_url', 'road_address_name', 'x', 'y', 'image']
 
 
 # 좋아요한 장소 리스트
@@ -60,7 +62,7 @@ class LikePlaceSerializer(serializers.ModelSerializer):
         model = Place
         fields = ['address_name', 'category_group_code', 'category_group_name',
                   'category_name', 'distance', 'id', 'phone', 'place_name',
-                  'place_url', 'road_address_name', 'x', 'y', 'image_url']
+                  'place_url', 'road_address_name', 'x', 'y', 'image']
 
 
 # 가본 곳 장소 저장
@@ -70,7 +72,7 @@ class SaveVisitPlaceSerializer(serializers. ModelSerializer):
         model = Place
         fields = ['address_name', 'category_group_code', 'category_group_name',
                   'category_name', 'distance', 'id', 'phone', 'place_name',
-                  'place_url', 'road_address_name', 'x', 'y', 'image_url']
+                  'place_url', 'road_address_name', 'x', 'y', 'image']
 
 
 # 가본 곳 장소 리스트
@@ -79,7 +81,7 @@ class VisitPlaceSerializer(serializers.ModelSerializer):
         model = Place
         fields = ['address_name', 'category_group_code', 'category_group_name',
                   'category_name', 'distance', 'id', 'phone', 'place_name',
-                  'place_url', 'road_address_name', 'x', 'y', 'image_url']
+                  'place_url', 'road_address_name', 'x', 'y', 'image']
 
 
 # 사용자가 입력한 평점 데이터
