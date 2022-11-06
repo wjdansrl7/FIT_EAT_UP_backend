@@ -101,52 +101,52 @@ class Train(APIView):
 
         data = request.data.copy()
 
-        if request.data['num'] == '2':
+        if request.data['num'] == 2:
             if not data['user_id1']:
                 user1 = 0
             else:
-                user1 = int(data['user_id1'])
+                user1 = data['user_id1']
             if not data['user_id2']:
                 user2 = 0
             else:
-                user2 = int(data['user_id2'])
+                user2 = data['user_id2']
 
             rating_matrix = rating_matrix[(rating_matrix['user_id'] == user1) | (rating_matrix['user_id'] == user2)]
 
-        if request.data['num'] == '3':
+        if request.data['num'] == 3:
             if not data['user_id1']:
                 user1 = 0
             else:
-                user1 = int(data['user_id1'])
+                user1 = data['user_id1']
             if not data['user_id2']:
                 user2 = 0
             else:
-                user2 = int(data['user_id2'])
+                user2 = data['user_id2']
             if not data['user_id3']:
                 user3 = 0
             else:
-                user3 = int(data['user_id3'])
+                user3 = data['user_id3']
 
             rating_matrix = rating_matrix[(rating_matrix['user_id'] == user1) | (rating_matrix['user_id'] == user2) |
                                          (rating_matrix['user_id'] == user3)]
 
-        if request.data['num'] == '4':
+        if request.data['num'] == 4:
             if not data['user_id1']:
                 user1 = 0
             else:
-                user1 = int(data['user_id1'])
+                user1 = data['user_id1']
             if not data['user_id2']:
                 user2 = 0
             else:
-                user2 = int(data['user_id2'])
+                user2 = data['user_id2']
             if not data['user_id3']:
                 user3 = 0
             else:
-                user3 = int(data['user_id3'])
+                user3 = data['user_id3']
             if not data['user_id4']:
                 user4 = 0
             else:
-                user4 = int(data['user_id4'])
+                user4 = data['user_id4']
 
             rating_matrix = rating_matrix[(rating_matrix['user_id'] == user1) | (rating_matrix['user_id'] == user2) |
                                          (rating_matrix['user_id'] == user3) | (rating_matrix['user_id'] == user4)]

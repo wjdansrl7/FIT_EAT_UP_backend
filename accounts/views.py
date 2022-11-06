@@ -205,6 +205,30 @@ def visitPlace_delete(request):
     return Response(status.HTTP_204_NO_CONTENT)
 
 
+# 친구목록에 있는 친구의 좋아요한 장소 리스트 출력
+class FriendLikePlaceListAPIView(ListAPIView):
+    queryset = Place.objects.all()
+    serializer_class = LikePlaceSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        user = get_object_or_404(User, pk=self.request.GET['pk'])
+        qs = qs.filter(id__in=user.like_places.all())
+        return qs
+
+
+# 친구목록에 있는 친구의 방문 장소 리스트 출력
+class FriendVisitPlaceListAPIView(ListAPIView):
+    queryset = Place.objects.all()
+    serializer_class = VisitPlaceSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        user = get_object_or_404(User, pk=self.request.GET['pk'])
+        qs = qs.filter(id__in=user.visit_places.all())
+        return qs
+
+
 # 음식점에 대한 평점 저장
 class RatingView(GenericAPIView):
     model = UserRating
