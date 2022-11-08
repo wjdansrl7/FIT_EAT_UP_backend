@@ -1,3 +1,4 @@
+import json
 import os
 import pickle
 
@@ -90,15 +91,6 @@ class Train(APIView):
         rating_place = pd.merge(rating, place, how='left', left_on='place_id', right_on='id')
         rating_matrix = rating_place.filter(items=['user_id', 'place_id', 'rating', 'place_name'])
 
-        # data = request.data.copy()
-        # li = [data['user_id1'], data['user_id2'], data['user_id3'], data['user_id4']]
-        # print(li)
-        # rating_matrix = rating_place[rating_place.user_id.isin([request.data['user_id1'], request.data['user_id2'],
-        #                                                         request.data['user_id3'], request.data['user_id4']])]
-        # rating_matrix = rating_place[rating_place['user_id'] == [request.data['user_id1'], request.data['user_id2'],
-        #                                                          request.data['user_id3'], request.data['user_id4']]]
-        # rating_matrix = rating_place[rating_place.user_id.isin(li)]
-
         data = request.data.copy()
 
         if request.data['num'] == 2:
@@ -154,31 +146,38 @@ class Train(APIView):
         # rating_matrix = rating_place[rating_place['user_id'] == 1]
         rating_matrix = rating_matrix.pivot_table('rating', index='user_id', columns='place_name')
         rating_matrix = rating_matrix.fillna(0)
-        print(rating_matrix.values)
-
-        # model_name = request.data.pop('model_name')
-        # print(model_name)
-
+        print('rating_matrix : ', rating_matrix)
 
         try:
             P, Q = self.matrix_factorization(R=rating_matrix.values, K=100, steps=2800, learning_rate=0.01, r_lambda=0.01)
             pred_matrix = np.dot(P, Q.T)
-            print(pred_matrix)
+            pred_matrix = pred_matrix.astype(float)
+            rating_pred_matrix = pd.DataFrame(data=pred_matrix, index=rating_matrix.index, columns=rating_matrix.columns)
         except Exception as err:
             return Response(str(err), status=status.HTTP_400_BAD_REQUEST)
 
         path = os.path.join(settings.MODEL_ROOT, request.data['model_name'])
         with open(path, 'wb') as file:
-            pickle.dump(pred_matrix, file)
+            pickle.dump(rating_pred_matrix, file)
 
         # 결과값 출력
         try:
             with open(path, 'rb') as file:
                 model = pickle.load(file)
-                print(model)
+
+            recomm_index = model.mean().argsort().values[::-1]
+            rating_place_name = model.iloc[:, recomm_index].columns
+
+            rating_place_rate = model.mean()[recomm_index].values.round(2)
+            json_objects = {}
+            for i in range(len(recomm_index)):
+                json_objects.update({rating_place_name[i]: rating_place_rate[i]})
+
+
         except Exception as err:
             return Response(str(err), status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_200_OK)
+        return Response(json_objects, status=status.HTTP_200_OK)
+        # return Response(rating_place_name, status=status.HTTP_200_OK)
 
 
     def get_rmse(self, R, P, Q, non_zeros):
@@ -333,6 +332,28 @@ class Train(APIView):
 # ppp = MyOwnAlgorithm()
 # ppp.fit(trainset)
 # ppp.predict(uid=2, iid=93948546, verbose=True)
+
+# python dictionary
+example1 = {
+    'name':'bruce',
+    'age':29,
+    'weight':75.4,
+    'hobby':['soccer','tennis'],
+    'married':False,
+    'driver_license_info':None
+}
+print(type(example1))
+result1 = json.dumps(example1)  # python dictionary를 json로 변환된 문자열로 바꿔준다.
+# dumps가 아닌 dump를 사용하면 파일로 저장할 수 있다.
+# indent는 사용자가 조금 더 보기 편리하게 바꿔준다.
+print(type(result1))  # str
+# print(result1)
+
+dic1 = json.loads(result1)  # json 문자열을 파이썬 객체로 바꿔준다.
+print(dic1)
+print(type(dic1))
+
+
 
 
 

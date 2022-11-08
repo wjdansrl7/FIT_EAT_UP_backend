@@ -36,16 +36,14 @@ urlpatterns = [
     path('place/user/visit/delete/', views.visitPlace_delete, name='VisitPlaceDelete'),  # 가본 곳 장소 리스트 삭제
 
     #친구들의 좋아요 가본 장소 조회
-    path('place/friend/like/list/', views.FriendLikePlaceListAPIView.as_view(), name='FriendLikePlaceList'),
-    path('place/friend/visit/list/', views.FriendVisitPlaceListAPIView.as_view(), name='FriendVisitPlaceList'),
+    path('place/friend/like/list/', views.FriendLikePlaceListAPIView.as_view(), name='FriendLikePlaceList'),  # 친구의 좋아요 리스트
+    path('place/friend/visit/list/', views.FriendVisitPlaceListAPIView.as_view(), name='FriendVisitPlaceList'),  # 친구의 가본 장소 리스트
 
     # 장소에 대한 평점
     path('place/user/rating/', views.RatingView.as_view(), name='Rating'),  # 음식점에 대한 유저의 평점 저장
     path('place/user/rating/list/', views.RatingListView.as_view(), name='RatingList'),  # 음식점에 대한 유저의 평점 리스트
 
     path('export-to-csv/', views.export_to_csv, name='export-to-csv'),
-    # path('train/', Train.as_view(), name="train"),
-    # path('predict/', Predict.as_view(), name="predict"),
 
 
 
