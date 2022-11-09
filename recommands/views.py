@@ -3,8 +3,9 @@ import os
 import pickle
 
 import numpy as np
+import pymysql.cursors
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 import pandas as pd
 from rest_framework import status
@@ -143,7 +144,6 @@ class Train(APIView):
             rating_matrix = rating_matrix[(rating_matrix['user_id'] == user1) | (rating_matrix['user_id'] == user2) |
                                          (rating_matrix['user_id'] == user3) | (rating_matrix['user_id'] == user4)]
 
-        # rating_matrix = rating_place[rating_place['user_id'] == 1]
         rating_matrix = rating_matrix.pivot_table('rating', index='user_id', columns='place_name')
         rating_matrix = rating_matrix.fillna(0)
         print('rating_matrix : ', rating_matrix)
@@ -169,16 +169,16 @@ class Train(APIView):
             rating_place_name = model.iloc[:, recomm_index].columns
 
             rating_place_rate = model.mean()[recomm_index].values.round(2)
-            json_objects = {}
+            all_recomm_df = pd.DataFrame()
             for i in range(len(recomm_index)):
-                json_objects.update({rating_place_name[i]: rating_place_rate[i]})
-
+                recomm_df = place[place['place_name'] == rating_place_name[i]]
+                all_recomm_df = pd.concat([all_recomm_df, recomm_df])
+            all_recomm_df['rating'] = rating_place_rate
+            recomm_json = all_recomm_df.to_json(orient='records', indent=4, force_ascii=False)
 
         except Exception as err:
             return Response(str(err), status=status.HTTP_400_BAD_REQUEST)
-        return Response(json_objects, status=status.HTTP_200_OK)
-        # return Response(rating_place_name, status=status.HTTP_200_OK)
-
+        return HttpResponse(recomm_json, status=status.HTTP_200_OK)
 
     def get_rmse(self, R, P, Q, non_zeros):
         error = 0
@@ -334,24 +334,27 @@ class Train(APIView):
 # ppp.predict(uid=2, iid=93948546, verbose=True)
 
 # python dictionary
-example1 = {
-    'name':'bruce',
-    'age':29,
-    'weight':75.4,
-    'hobby':['soccer','tennis'],
-    'married':False,
-    'driver_license_info':None
-}
-print(type(example1))
-result1 = json.dumps(example1)  # python dictionary를 json로 변환된 문자열로 바꿔준다.
-# dumps가 아닌 dump를 사용하면 파일로 저장할 수 있다.
-# indent는 사용자가 조금 더 보기 편리하게 바꿔준다.
-print(type(result1))  # str
-# print(result1)
+# example1 = {
+#     'name':'bruce',
+#     'age':29,
+#     'weight':75.4,
+#     'hobby':['soccer','tennis'],
+#     'married':False,
+#     'driver_license_info':None
+# }
+# print(type(example1))
+# result1 = json.dumps(example1)  # python dictionary를 json로 변환된 문자열로 바꿔준다.
+# # dumps가 아닌 dump를 사용하면 파일로 저장할 수 있다.
+# # indent는 사용자가 조금 더 보기 편리하게 바꿔준다.
+# print(type(result1))  # str
+# # print(result1)
+#
+# dic1 = json.loads(result1)  # json 문자열을 파이썬 객체로 바꿔준다.
+# print(dic1)
+# print(type(dic1))
 
-dic1 = json.loads(result1)  # json 문자열을 파이썬 객체로 바꿔준다.
-print(dic1)
-print(type(dic1))
+# stores_info = pd.read_csv('User/moongi/')
+
 
 
 
