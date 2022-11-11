@@ -7,3 +7,6 @@ venv/
 myvenv/
 .idea/
 .DS_Store
+config/
+models/
+media/
