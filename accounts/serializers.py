@@ -33,7 +33,7 @@ class ProfileUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['pk', 'username', 'nickname', 'avatar_url']
+        fields = ['pk', 'username', 'nickname', 'avatar', 'avatar_url']
 
 
 # 친구 추천 유저 리스트 목록

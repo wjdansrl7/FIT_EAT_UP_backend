@@ -48,6 +48,7 @@ class User(AbstractUser):
         through='UserRating',
     )
 
+    # avatar 필드 관련 확인
     # @property는 메소드를 마치 필드인 것처럼 취급할 수 있게 해준다.
     @property
     def avatar_url(self):
