@@ -59,20 +59,22 @@ class User(AbstractUser):
 
 
 class Place(models.Model):
-    address_name = models.CharField(max_length=200)
-    category_group_code = models.CharField(max_length=50)
-    category_group_name = models.CharField(max_length=100)
-    category_name = models.CharField(max_length=50)
+    address_name = models.CharField(max_length=200, null=True, blank=True)
+    category_group_code = models.CharField(max_length=50, null=True, blank=True)
+    category_group_name = models.CharField(max_length=100, null=True, blank=True)
+    category_name = models.CharField(max_length=50, null=True, blank=True)
     distance = models.CharField(max_length=50, null=True, blank=True)
     # id = models.AutoField(primary_key=True)  # 음식점 식별 번호
     id = models.CharField(primary_key=True, max_length=50)  # 음식점 식별 번호
     # serial_number = models.CharField(max_length=50)  # 음식점 식별 번호
-    phone = models.CharField(max_length=18, blank=True)  # 음식점 전화 번호
+    phone = models.CharField(max_length=18, blank=True, null=True)  # 음식점 전화 번호
     place_name = models.CharField(max_length=200)  # 음식점 상호명
     place_url = models.URLField(blank=True)
-    road_address_name = models.CharField(max_length=50)
-    x = models.DecimalField(max_digits=18, decimal_places=15)  # 음식점 위도
-    y = models.DecimalField(max_digits=18, decimal_places=15)  # 음식점 경도
+    road_address_name = models.CharField(max_length=50, null=True, blank=True)
+    # x = models.DecimalField(max_digits=18, decimal_places=15)  # 음식점 위도
+    # y = models.DecimalField(max_digits=18, decimal_places=15)  # 음식점 경도
+    x = models.CharField(max_length=100, null=True, blank=True)
+    y = models.CharField(max_length=100, null=True, blank=True)
     image = models.ImageField(
         blank=True,
         upload_to="accounts/image/%Y/%m/%d",

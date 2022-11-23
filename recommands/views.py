@@ -28,6 +28,7 @@ from .config.db_info import db_info
 engine = create_engine(db_info, convert_unicode=True)
 conn = engine.connect()
 
+
 class surprise_train(APIView):
     def post(self, request):
         # Surprise 패키지를 통한 구현
@@ -36,8 +37,6 @@ class surprise_train(APIView):
 
         # df = pd.read_csv("/Users/moongi/food_data_최종본/최종합계.csv")
         # df.drop(columns=['Unnamed: 0'], inplace=True)
-        #
-        #
         #
         # dtypesql = {'place_name': sqlalchemy.types.VARCHAR(50),
         #             'vote': sqlalchemy.types.VARCHAR(50),
@@ -115,10 +114,12 @@ class surprise_train(APIView):
 
         seoul_place['user_id'] = '999' # 크롤링한 데이터는 user_id를 임의로 지정
         seoul_place = seoul_place.rename(columns={'rate': 'rating', 'id': 'place_id'})  # column명 통일을 위한 변경
+        # seoul_place = seoul_place.rename(columns={'rate': 'rating'})  # column명 통일을 위한 변경
 
         # todo: Front-End와 인자 통일
         seoul_place = seoul_place.get(seoul_place['지역구'] == request.data['area'])  # 추천 받고자 하는 지역 설정
         seoul_place = seoul_place.drop_duplicates(['place_id'])
+        # seoul_place = seoul_place.drop_duplicates(['id'])
         seoul_place = seoul_place.fillna({'vote': 0, 'rate': 0})  # 결측값이 있는 행을 vote : 0, rate : 0
         # print(df.isnull().sum())
         seoul_place['vote'] = seoul_place['vote'].str.replace('건', '')
@@ -142,12 +143,12 @@ class surprise_train(APIView):
         print(seoul_place[['place_name', 'rating']].sort_values('rating', ascending=False)[:10])
 
         weighted_seoul_place = seoul_place[['user_id', 'place_id', 'rating', 'place_name']]
+        # weighted_seoul_place = seoul_place[['user_id', 'id', 'rating', 'place_name']]
 
         rating_matrix = pd.concat([rating_matrix, weighted_seoul_place])
         rating_matrix['rating'] = rating_matrix['rating'].fillna('0')
         rating_matrix['rating'] = rating_matrix['rating'].astype(float)
         rating_matrix = rating_matrix.drop_duplicates(['place_id'])
-
 
         rating_matrix.to_csv('/Users/moongi/FIT_EAT_UP_backend/backend/recommands/models/recommands/' + str(data['user_id1']) + '번 rating_matrix' + '.csv', index=False, header=False)
 
@@ -186,6 +187,7 @@ class surprise_train(APIView):
 
         # 알고리즘 객체의 predict() 메서드를 평점이 없는 영화에 반복 수행한 후 결과를 List 객체로 저장
         predictions = [algo.predict(str(userId), str(place_id)) for place_id in undo_places]
+        # predictions = [algo.predict(str(userId), str(id)) for id in undo_places]
 
         # predictions list 객체는 surprise의 Predictions 객체를 원소로 가지고 있음.
 
@@ -200,13 +202,18 @@ class surprise_train(APIView):
         top_predictions = predictions[:top_n]
 
         # top_n으로 추출된 음식점의 정보 추출. 음식점 아이디, 추천 예상 평점, 음식점 이름 추출
+        top_places_uids = [pred.uid for pred in top_predictions]
         top_places_ids = [pred.iid for pred in top_predictions]
         top_places_rating = [round(pred.est, 2) for pred in top_predictions]
         top_places = pd.concat([rating_place, seoul_place])
         top_places = top_places.drop_duplicates(['place_id'])
+        # top_places = top_places.drop_duplicates(['id'])
         top_places = top_places[top_places.place_id.isin(top_places_ids)]
         top_places['rating'] = top_places_rating
-        top_places = top_places[['place_name', 'place_id', 'rating', 'address_name', 'category_group_name', 'phone', 'place_url', 'road_address_name', 'x', 'y', 'image', '지역구']]
+        top_places['pk'] = top_places_uids
+        top_places = top_places.rename(columns={'place_id': 'id'})
+        # top_places = top_places[['place_name', 'place_id', 'rating', 'address_name', 'category_group_name', 'phone', 'place_url', 'road_address_name', 'x', 'y', 'image', '지역구']]
+        top_places = top_places[['pk', 'place_name', 'id', 'rating', 'address_name', 'category_group_name', 'phone', 'place_url', 'road_address_name', 'x', 'y', 'image', '지역구']]
 
         return top_places
 
