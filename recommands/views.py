@@ -1,6 +1,8 @@
 import json
 import os
 import pickle
+import random
+
 import pymysql
 import numpy as np
 import pymysql.cursors
@@ -10,6 +12,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 import pandas as pd
 from rest_framework import status
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from scipy.linalg import svd
@@ -21,17 +24,15 @@ from surprise.dataset import DatasetAutoFolds, Dataset
 from surprise.model_selection import cross_validate, GridSearchCV
 from .config.db_info import db_info
 
-
+# db_table을 불러오기 위한 코드
+engine = create_engine(db_info, convert_unicode=True)
+conn = engine.connect()
 
 class surprise_train(APIView):
     def post(self, request):
         # Surprise 패키지를 통한 구현
         pd.set_option('display.max_columns', 100)
         pd.set_option('display.max_colwidth', 20)
-
-        # seoul_place db table을 생성하기 위한 코드
-        engine = create_engine(db_info, convert_unicode=True)
-        conn = engine.connect()
 
         # df = pd.read_csv("/Users/moongi/food_data_최종본/최종합계.csv")
         # df.drop(columns=['Unnamed: 0'], inplace=True)
@@ -212,6 +213,20 @@ class surprise_train(APIView):
 # # todo : rating 테이블에 대해서 가본 장소 + 좋아요 장소 : 0.8, 가본 장소 : 0.7, 좋아요 장소 : 0.7로 각각에 대해 가중치 값을 평점에 집어 넣고
 # # todo : 행렬 분해를 계산
 #
+
+# 랜덤 맛집 장소 추천
+class random_recomm(GenericAPIView):
+    def get(self, request):
+        seoul_place = pd.read_sql_table('seoul_place', conn)
+        seoul_place = seoul_place[seoul_place['rate'] >= 3]
+        rand = random.randint(1, len(seoul_place))
+        random_place = seoul_place.iloc[rand, :]
+        random_place = random_place.to_json(indent=4, force_ascii=False)
+
+        return HttpResponse(random_place, status=status.HTTP_200_OK)
+
+
+
 
 # 크롤링한 데이터를 하나의 유저로 생각하고 한 경우
 
