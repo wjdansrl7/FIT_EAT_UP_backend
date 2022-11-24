@@ -212,12 +212,8 @@ class surprise_train(APIView):
         top_places['rating'] = top_places_rating
         top_places['pk'] = top_places_uids
         top_places = top_places.rename(columns={'place_id': 'id'})
-        # if top_places['image'].empty():
-        #     top_places['image'] = '/Users/moongi/FIT_EAT_UP_backend/backend/backend/media/recommands/reastaurant_image.png'
-        # print(top_places['image'])
-        # for image in top_places['image']:
-        #     if image.isnull():
-        top_places = top_places.fillna({'image': '/Users/moongi/FIT_EAT_UP_backend/backend/backend/media/recommands/reastaurant_image.png'})
+
+        top_places = top_places.fillna({'image': '/media/recommands/reastaurant_image.png'})
         print(top_places['image'])
 
         # top_places = top_places[['place_name', 'place_id', 'rating', 'address_name', 'category_group_name', 'phone', 'place_url', 'road_address_name', 'x', 'y', 'image', '지역구']]
