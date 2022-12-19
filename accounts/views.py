@@ -74,9 +74,6 @@ def user_unfollow(request):
     return Response(status.HTTP_204_NO_CONTENT)
 
 
-# -----------------------------------------------------
-
-
 # 좋아요한 장소를 Place 모델에 저장 및 해당 유저가 좋아하는 장소 저장
 class LikePlaceAPIView(GenericAPIView):
     model = Place
@@ -182,7 +179,6 @@ class VisitPlaceAPIView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
-
 # 방문한 장소 리스트 출력
 class VisitPlaceListAPIView(ListAPIView):
     queryset = Place.objects.all()
@@ -281,18 +277,6 @@ class RatingView(GenericAPIView):
 class RatingListView(ListAPIView):
     queryset = UserRating.objects.all()
     serializer_class = RatingSerializer
-
-
-def export_to_csv(request):
-    ratings = UserRating.objects.all()
-    response = HttpResponse('text/csv')
-    response['Content-Disposition'] = 'attachment; filename=rating_export.csv'
-    writer = csv.writer(response)
-    writer.writerow(['User','Place','Rating'])
-    rating_fields = ratings.values_list('user_id', 'place_id', 'rating')
-    for rating in rating_fields:
-        writer.writerow(rating)
-    return response
 
 
 
