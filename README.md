@@ -1,21 +1,22 @@
 # 졸업 프로젝트
 ## FIT_EAT_UP_backend
 
+[프로젝트 개발 소프트웨어 환경]
+![image](https://user-images.githubusercontent.com/48114924/208365430-54c5fac7-bb34-4653-b2f3-20606c943b41.png)
+
+[백엔드 구조 설계]
+![image](https://user-images.githubusercontent.com/48114924/208365223-380dd537-56bb-49c8-806b-658971f0b934.png)
+
 #### version 0.0.0
   ##### ⚬ 프로젝트 생성
   
 #### version 0.1.0
-  ##### ⚬ 
+  ##### ⚬ http://localhost:8000/accounts/signup/ : 유저의 회원가입
+  ##### ⚬ http://localhost:8000/accounts/tokenv/ : jwt web token 발급
 
 #### version 0.2.0
-  ##### ⚬ 
+  ##### ⚬ 유저 모델 생성
 
-#### version 0.2.1
-  ##### ⚬ 
-  
-#### version 0.2.2
-  ##### ⚬ 
-  
 #### version 0.3.0
   ##### ⚬ jwt token 로그인 관련 permission을 allowany -> authorization을 통해 token이 인증된 사용자만 이후 페이지에 접근
   ##### ⚬ http://localhost:8000/accounts/user/: 로그인한 유저 정보 조회
@@ -44,7 +45,40 @@
   ##### ⚬ http://localhost:8000/accounts/place/user/like/delete/ : 유저가 좋아요한 장소를 삭제
   ##### ⚬ http://localhost:8000/accounts/place/user/visit/delete/ : 유저가 가본 장소를 삭제
 
-
 #### version 0.8.0
   ##### ⚬ http://localhost:8000/accounts/place/user/rating/ : 음식점에 대한 유저의 평점 저장
-  ##### ⚬ http://localhost:8000/accounts/place/user/rating/list/ : 음식점에 대한 유저의 평점 
+  ##### ⚬ http://localhost:8000/accounts/place/user/rating/list/ : 음식점에 대한 유저의 평점
+
+#### version 0.8.1
+  ##### ⚬ 음식점에 대한 평점 저장 및 평점 리스트 출력 view 작성
+
+#### version 0.9.0
+  ##### ⚬ recommands 앱 생성
+  ##### ⚬ http://localhost:8000/recommands/recommand/ : SGD를 활용한 행렬 분해기법을 통하여 음식점에 대한 평점 예측을 잠재요인 협업 필터링 방식을 사용
+  
+#### version 0.9.1
+  ##### ⚬ http://localhost:8000/accounts/place/friend/like/list/ : 친구들의 프로필에서 좋아요 장소 리스트 조회
+  ##### ⚬ http://localhost:8000/accounts/place/friend/visit/list/ : 친구들의 프로필에서 가본 장소 장소 리스트 조회
+  
+#### version 0.9.2 ~ 0.9.3
+  ##### ⚬ front-end에서 json으로 응답이 가지 않는 문제 해결
+
+#### version 0.9.4
+  ##### ⚬ 불필요한 foods app 삭제
+  
+#### version 0.9.5
+  ##### ⚬ 크롤링한 음식점 데이터를 mysql에 저장
+  ##### ⚬ 음식점 추천시 추천받고자 하는 지역구 선택을 위한 코드 수정
+ 
+#### version 0.10.0
+  ##### ⚬ http://localhost:8000/recommands/surprise/ : 기존 SGD방식의 행렬분해가 평점이 정확하게 예측되지 않는다고 판단하여서 surprise package를 이용하여 SGD를 활용한 행렬분해 이용
+  
+#### version 0.11.0
+  ##### ⚬ http://localhost:8000/recommands/random/ : 크롤링한 음식점 데이터중 평점이 3점이상인 음식점 데이터를 랜덤으로 추천
+
+#### version 0.11.1 ~ 0.11.2
+  ##### ⚬ 코드 주석처리 삭제 및 불필요한 내용 
+
+
+  
+
