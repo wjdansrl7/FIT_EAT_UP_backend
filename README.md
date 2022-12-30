@@ -1,5 +1,6 @@
 # 졸업 프로젝트
 ## FIT_EAT_UP_backend
+#### 프론트 엔드 주소: https://github.com/yerim03/FIT_EAT_UP_frontend
 #### 유튜브 영상 : https://www.youtube.com/watch?v=MTsxdkUxlgE&list=LL&index=2&t=244s
 
 [프로젝트 개발 소프트웨어 환경]
