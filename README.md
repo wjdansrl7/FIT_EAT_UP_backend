@@ -1,11 +1,13 @@
 # 졸업 프로젝트
 ## FIT_EAT_UP_backend
-#### 프론트 엔드 주소: https://github.com/yerim03/FIT_EAT_UP_frontend
+#### 프론트엔드 깃허브 링크: [FrontEnd GitHub Repo](https://github.com/yerim03/FIT_EAT_UP_frontend)
+<br/> <br/> 
+### 개발 소프트웨어 환경
 
-[프로젝트 개발 소프트웨어 환경]
 <img src="https://user-images.githubusercontent.com/48114924/208365430-54c5fac7-bb34-4653-b2f3-20606c943b41.png" width="700" height="370">
 
-[백엔드 구조 설계]
+### 백엔드 구조 설계
+
 <img src="https://user-images.githubusercontent.com/48114924/208365223-380dd537-56bb-49c8-806b-658971f0b934.png" width="700" height="370">
 
 #### version 0.0.0
